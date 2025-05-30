@@ -13,9 +13,6 @@ function App() {
     const token = localStorage.getItem("access_token");
     setIsAuthenticated(!!token);
     loadTableData();
-    if (token) {
-      loadTableData();
-    }
   }, []);
 
   const authFetch = (url, options = {}) => {
@@ -33,7 +30,7 @@ function App() {
       .then(res => res.json())
       .then(data => {
         console.log(data);
-        loadTableData(data);
+        loadTableData();
       });
   };
 
@@ -58,13 +55,17 @@ function App() {
       .catch(err => console.error("Failed to fetch data:", err));
   };
   
+  const sortTableData = [...tableData].sort((a, b) => b.value - a.value);
+
   return (
     <div>
       {showLoginModal && <LoginModal onLogin={handleLoginSuccess} />}
       
         <div>
-          <h2>Welcome to the game!</h2>
-          {!isAuthenticated ? (
+          {!showLoginModal && (
+            <>
+            <h2>Welcome to the game!</h2>
+            {!isAuthenticated ? (
            <button onClick={() => setShowLoginModal(true)}>Login</button>   
           ) : (
             <button onClick={handleLogout}>Logout</button>
@@ -72,8 +73,6 @@ function App() {
           {isAuthenticated && (
             <button onClick={iLostTheGame}>I lost the game</button>
           )}
-          {!showLoginModal && (
-            <>
           <h3>Users:</h3>
           <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
           <table>
@@ -81,7 +80,7 @@ function App() {
               <tr><th>ID</th><th>Username</th><th>Losses</th></tr>
             </thead>
             <tbody>
-              {tableData.map(row => (
+              {sortTableData.map(row => (
                 <tr key={row.id}>
                   <td>{row.id}</td>
                   <td>{row.username}</td>
@@ -96,6 +95,9 @@ function App() {
               <MyCalendar/>
           </div>
           </>
+          )}
+          {showLoginModal &&(
+            <button onClick={() => setShowLoginModal(false)}>back</button>
           )}
         </div>
 

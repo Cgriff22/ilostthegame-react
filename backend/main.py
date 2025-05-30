@@ -38,7 +38,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # frontend origin
+    allow_origins=["http://localhost:5173"],  # frontend origin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -82,7 +82,7 @@ def get_data():
     Session = sessionmaker(bind=engine)
     session = Session()
     rows = session.query(MyTable).all()
-    result = [{"id": r.id, "username": r.username, "password": r.password, "value": r.value} for r in rows]
+    result = [{"id": r.id, "username": r.username, "value": r.value} for r in rows]
     #print(result)
     session.close()
     return result
