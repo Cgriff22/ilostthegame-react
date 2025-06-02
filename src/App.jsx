@@ -3,6 +3,9 @@ import LoginModal from './loginmodal';
 import './App.css'; 
 import MyCalendar from './MyCalendar';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+console.log("Backend URL:", import.meta.env.VITE_API_URL);
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
