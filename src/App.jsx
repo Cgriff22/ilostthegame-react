@@ -3,7 +3,7 @@ import LoginModal from './loginmodal';
 import './App.css'; 
 import MyCalendar from './MyCalendar';
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 console.log("Backend URL:", import.meta.env.VITE_API_URL);
 
 
@@ -29,7 +29,7 @@ function App() {
   };
 
   const iLostTheGame = () => {
-    authFetch('http://127.0.0.1:8000/protected_route')
+    authFetch(`${API_URL}/protected_route`)
       .then(res => res.json())
       .then(data => {
         console.log(data);
@@ -52,7 +52,7 @@ function App() {
   };
 
   const loadTableData = () => {
-    fetch('http://127.0.0.1:8000/get_data')
+    fetch(`${API_URL}/get_data`)
       .then(res => res.json())
       .then(data => setTableData(data))
       .catch(err => console.error("Failed to fetch data:", err));
